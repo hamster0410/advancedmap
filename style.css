@@ -1,0 +1,237 @@
+@import "node_modules/ol/ol.css";
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+  overflow-x: hidden;
+}
+
+#map {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+}
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 450px;
+  /* 너비 증가 */
+  background-color: white;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+  z-index: 1000;
+}
+
+/* 나머지 CSS는 동일하게 유지 */
+.sidebar.collapsed {
+  transform: translateX(-450px);
+  /* 사이드바 너비만큼 이동 */
+}
+
+.toggle-button {
+  position: absolute;
+  left: 450px;
+  /* 사이드바 너비만큼 이동 */
+  top: 50%;
+  transform: translateY(-50%);
+  width: 30px;
+  height: 60px;
+  background-color: white;
+  border: none;
+  border-radius: 0 8px 8px 0;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s;
+  z-index: 1001;
+  /* 토글 버튼의 z-index를 사이드바보다 높게 설정 */
+}
+
+.sidebar.collapsed .toggle-button {
+  left: 450px;
+  /* collapsed 상태에서도 같은 위치 유지 */
+}
+
+.toggle-button:hover {
+  background-color: #f0f0f0;
+}
+
+.toggle-icon {
+  border: solid #666;
+  border-width: 0 2px 2px 0;
+  display: inline-block;
+  padding: 4px;
+  transform: rotate(135deg);
+  transition: transform 0.3s;
+}
+
+.sidebar.collapsed .toggle-icon {
+  transform: rotate(-45deg);
+}
+
+.search-content {
+  padding: 20px;
+  height: 100%;
+  /* 추가 */
+  overflow-y: auto;
+  /* 추가 */
+}
+
+.search-header {
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #eee;
+  text-align: center;
+  /* 제목 중앙 정렬 */
+}
+.search-header h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: #333;
+}
+.category-buttons {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.category-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 15px;
+  border: none;
+  border-radius: 8px;
+  background-color: #f8f9fa;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.category-button:hover {
+  background-color: #e9ecef;
+  transform: translateY(-2px);
+}
+
+.category-button.active {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.category-icon {
+  font-size: 24px;
+  margin-bottom: 8px;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    width: 320px;
+    /* 모바일에서는 더 작게 */
+  }
+
+  .sidebar.collapsed {
+    transform: translateX(-320px);
+  }
+
+  .toggle-button {
+    left: 320px;
+  }
+
+  .sidebar.collapsed .toggle-button {
+    left: 320px;
+  }
+}
+
+.search-box {
+  margin-bottom: 20px;
+  display: flex;
+  /* 검색창과 버튼을 나란히 배치 */
+  gap: 8px;
+  /* 검색창과 버튼 사이 간격 */
+}
+.search-input {
+  flex: 1;
+  /* 남은 공간 모두 차지 */
+  padding: 10px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: border-color 0.2s;
+}
+.search-input:focus {
+  outline: none;
+  border-color: #4CAF50;
+}
+.search-button {
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background-color 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.search-button:hover {
+  background-color: #45a049;
+}
+
+.search-button svg {
+  width: 16px;
+  height: 16px;
+}
+.options-group {
+  background-color: #f8f9fa;
+  padding: 15px;
+  border-radius: 8px;
+  margin: 20px 0;
+}
+
+.options-title {
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.checkbox-group {
+  display: flex;
+  gap: 15px;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  color: #555;
+}
+
+.checkbox-input {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+.category-section {
+  margin-top: 20px;
+}
+
+.section-title {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 15px;
+  color: #333;
+}

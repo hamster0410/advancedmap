@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/x-icon" href="https://openlayers.org/favicon.ico" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Using OpenLayers with Vite</title>
+</head>
+<script type="module" src="./search.js"></script>
+
+<body>
+  <div class="sidebar" id="sidebar">
+    <div class="search-header">
+      <h2>카테고리 검색</h2>
+    </div>
+    <button class="toggle-button" onclick="toggleSidebar()">
+      <span class="toggle-icon"></span>
+    </button>
+    <div class="search-content">
+      <!-- 검색창 추가 -->
+      <!-- 검색창과 버튼 그룹 -->
+      <div class="search-box">
+        <input type="text" class="search-input" placeholder="장소 검색..." id="searchInput" />
+        <button class="search-button" onclick="handleSearch()">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+          검색
+        </button>
+      </div>
+
+      <!-- 옵션 그룹 추가 -->
+      <div class="options-group">
+        <div class="options-title">이용 옵션</div>
+        <div class="checkbox-group">
+          <label class="checkbox-label">
+            <input type="checkbox" class="checkbox-input" name="option" value="parking" />
+            주차가능
+          </label>
+          <label class="checkbox-label">
+            <input type="checkbox" class="checkbox-input" name="option" value="indoor" />
+            실내가능
+          </label>
+          <label class="checkbox-label">
+            <input type="checkbox" class="checkbox-input" name="option" value="outdoor" />
+            실외가능
+          </label>
+        </div>
+      </div>
+      <!-- 카테고리 버튼 -->
+      <div class="category-section">
+        <div class="section-title">카테고리</div>
+        <div class="category-buttons">
+          <button class="category-button" onclick="selectCategory(this)">
+            <span class="category-icon">💊</span>
+            동물약국
+          </button>
+          <button class="category-button" onclick="selectCategory(this)">
+            <span class="category-icon">🎨</span>
+            미술관
+          </button>
+          <button class="category-button" onclick="selectCategory(this)">
+            <span class="category-icon">☕</span>
+            카페
+          </button>
+          <button class="category-button" onclick="selectCategory(this)">
+            <span class="category-icon">🏥</span>
+            동물병원
+          </button>
+          <button class="category-button" onclick="selectCategory(this)">
+            <span class="category-icon">🦮</span>
+            반려동물용품
+          </button>
+          <button class="category-button" onclick="selectCategory(this)">
+            <span class="category-icon">✂️</span>
+            미용
+          </button>
+          <button class="category-button" onclick="selectCategory(this)">
+            <span class="category-icon">🎭</span>
+            문예회관
+          </button>
+          <button class="category-button" onclick="selectCategory(this)">
+            <span class="category-icon">🏡</span>
+            펜션
+          </button>
+          <button class="category-button" onclick="selectCategory(this)">
+            <span class="category-icon">🍽️</span>
+            식당
+          </button>
+          <button class="category-button" onclick="selectCategory(this)">
+            <span class="category-icon">🏞️</span>
+            여행지
+          </button>
+          <button class="category-button" onclick="selectCategory(this)">
+            <span class="category-icon">📋</span>
+            위탁관리
+          </button>
+          <button class="category-button" onclick="selectCategory(this)">
+            <span class="category-icon">🏛️</span>
+            박물관
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+  </div>
+  <div id="map"></div>
+  <script type="module" src="./main.js"></script>
+
+</body>
+
+</html>
