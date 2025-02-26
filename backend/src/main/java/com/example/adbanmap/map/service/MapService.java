@@ -2,7 +2,10 @@ package com.example.adbanmap.map.service;
 
 import com.example.adbanmap.map.dto.MapDTO;
 import com.example.adbanmap.map.dto.MapDTOResponse;
-import com.example.adbanmap.map.repository.MapRepository;
+import com.example.adbanmap.map.entity.MapDescription;
+import com.example.adbanmap.map.entity.MapPosition;
+import com.example.adbanmap.map.repository.MapDescriptionRepository;
+import com.example.adbanmap.map.repository.MapPositionRepository;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +28,9 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 public class MapService {
-    private final MapRepository mapRepository;
+    private final MapPositionRepository mapPositionRepository;
+    private final MapDescriptionRepository mapDescriptionRepository;
+
 
     @Value("${openApi.serviceKey}")
     private String serviceKey;
@@ -38,7 +43,7 @@ public class MapService {
 
     public ResponseEntity<?> mapFind() {
 
-        mapRepository.deleteAll();
+        mapPositionRepository.deleteAll();
         int pageNo = 1; // 페이지 번호 초기화
         List<MapDTO> resultList = new ArrayList<>(); // 결과를 담을 리스트
         long totalCount = 0; // 총 항목 수
@@ -89,9 +94,12 @@ public class MapService {
                         for (JsonNode itemNode : dataNode) {
                             MapDTO item = objectMapper.treeToValue(itemNode, MapDTO.class);
                             resultList.add(item);
-
+                            MapPosition mapPosition = item.toMapPosition();
                             // 엔티티로 변환하여 DB 저장
-                            mapRepository.save(item.toEntity());
+                            mapPositionRepository.save(mapPosition);
+
+                            MapDescription mapDescription = item.toMapDescription(mapPosition);
+                            mapDescriptionRepository.save(mapDescription);
                         }
                         log.info("현재 페이지 처리 완료: {}", pageNo);
                         pageNo++; // 다음 페이지로 이동

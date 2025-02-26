@@ -1,7 +1,8 @@
 package com.example.adbanmap.map.dto;
 
 
-import com.example.adbanmap.map.entity.MapEntity;
+import com.example.adbanmap.map.entity.MapDescription;
+import com.example.adbanmap.map.entity.MapPosition;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -107,79 +108,50 @@ public class MapDTO {
 
     private long commentCount;
     private long totalRating;
-    // Entity를 DTO로 변환하는 생성자
-    public MapDTO(MapEntity entity) {
-        this.facilityName = entity.getFacilityName();
-        this.category1 = entity.getCategory1();
-        this.category2 = entity.getCategory2();
-        this.category3 = entity.getCategory3();
-        this.provinceName = entity.getProvinceName();
-        this.cityName = entity.getCityName();
-        this.townName = entity.getTownName();
-        this.villageName = entity.getVillageName();
-        this.lotNumber = entity.getLotNumber();
-        this.roadName = entity.getRoadName();
-        this.buildingNumber = entity.getBuildingNumber();
-        this.latitude = entity.getLatitude();
-        this.longitude = entity.getLongitude();
-        this.zipCode = entity.getZipCode();
-        this.roadAddress = entity.getRoadAddress();
-        this.lotAddress = entity.getLotAddress();
-        this.phoneNumber = entity.getPhoneNumber();
-        this.homepage = entity.getHomepage();
-        this.closedDays = entity.getClosedDays();
-        this.operatingHours = entity.getOperatingHours();
-        this.parkingAvailable = entity.getParkingAvailable();
-        this.admissionFee = entity.getAdmissionFee();
-        this.petFriendlyInfo = entity.getPetFriendlyInfo();
-        this.petExclusiveInfo = entity.getPetExclusiveInfo();
-        this.allowedPetSize = entity.getAllowedPetSize();
-        this.petRestrictions = entity.getPetRestrictions();
-        this.indoorAvailable = entity.getIndoorAvailable();
-        this.outdoorAvailable = entity.getOutdoorAvailable();
-        this.placeDescription = entity.getPlaceDescription();
-        this.additionalPetFee = entity.getAdditionalPetFee();
-        this.lastUpdated = entity.getLastUpdated();
 
-    }
-    // Entity -> DTO 변환
-    public static MapDTO fromEntity(MapEntity entity) {
-        return new MapDTO(entity);
+
+    public MapPosition toMapPosition() {
+        MapPosition mapPosition = new MapPosition();
+        mapPosition.setCategory3(this.getCategory3());
+        mapPosition.setLatitude(this.getLatitude());
+        mapPosition.setLongitude(this.getLongitude());
+        mapPosition.setParkingAvailable(this.getParkingAvailable());
+        mapPosition.setIndoorAvailable(this.getIndoorAvailable());
+        mapPosition.setOutdoorAvailable(this.getOutdoorAvailable());
+
+        return mapPosition;
     }
 
-    public MapEntity toEntity() {
-        MapEntity mapEntity = new MapEntity();
-        mapEntity.setFacilityName(this.getFacilityName());
-        mapEntity.setCategory1(this.getCategory1());
-        mapEntity.setCategory2(this.getCategory2());
-        mapEntity.setCategory3(this.getCategory3());
-        mapEntity.setProvinceName(this.getProvinceName());
-        mapEntity.setCityName(this.getCityName());
-        mapEntity.setTownName(this.getTownName());
-        mapEntity.setVillageName(this.getVillageName());
-        mapEntity.setLotNumber(this.getLotNumber());
-        mapEntity.setRoadName(this.getRoadName());
-        mapEntity.setLatitude(this.getLatitude());
-        mapEntity.setLongitude(this.getLongitude());
-        mapEntity.setZipCode(this.getZipCode());
-        mapEntity.setRoadAddress(this.getRoadAddress());
-        mapEntity.setLotAddress(this.getLotAddress());
-        mapEntity.setPhoneNumber(this.getPhoneNumber());
-        mapEntity.setHomepage(this.getHomepage());
-        mapEntity.setClosedDays(this.getClosedDays());
-        mapEntity.setOperatingHours(this.getOperatingHours());
-        mapEntity.setParkingAvailable(this.getParkingAvailable());
-        mapEntity.setAdmissionFee(this.getAdmissionFee());
-        mapEntity.setPetFriendlyInfo(this.getPetFriendlyInfo());
-        mapEntity.setPetExclusiveInfo(this.getPetExclusiveInfo());
-        mapEntity.setAllowedPetSize(this.getAllowedPetSize());
-        mapEntity.setPetRestrictions(this.getPetRestrictions());
-        mapEntity.setIndoorAvailable(this.getIndoorAvailable());
-        mapEntity.setOutdoorAvailable(this.getOutdoorAvailable());
-        mapEntity.setPlaceDescription(this.getPlaceDescription());
-        mapEntity.setAdditionalPetFee(this.getAdditionalPetFee());
-        mapEntity.setLastUpdated(this.getLastUpdated());
+    public MapDescription toMapDescription(MapPosition mapPosition) {
+        MapDescription mapDescription = new MapDescription();
+        mapDescription.setFacilityName(this.getFacilityName());
+        mapDescription.setCategory1(this.getCategory1());
+        mapDescription.setCategory2(this.getCategory2());
+        mapDescription.setProvinceName(this.getProvinceName());
+        mapDescription.setCityName(this.getCityName());
+        mapDescription.setTownName(this.getTownName());
+        mapDescription.setVillageName(this.getVillageName());
+        mapDescription.setLotNumber(this.getLotNumber());
+        mapDescription.setRoadName(this.getRoadName());
+        mapDescription.setZipCode(this.getZipCode());
+        mapDescription.setRoadAddress(this.getRoadAddress());
+        mapDescription.setLotAddress(this.getLotAddress());
+        mapDescription.setPhoneNumber(this.getPhoneNumber());
+        mapDescription.setHomepage(this.getHomepage());
+        mapDescription.setClosedDays(this.getClosedDays());
+        mapDescription.setOperatingHours(this.getOperatingHours());
+        mapDescription.setAdmissionFee(this.getAdmissionFee());
+        mapDescription.setPetFriendlyInfo(this.getPetFriendlyInfo());
+        mapDescription.setPetExclusiveInfo(this.getPetExclusiveInfo());
+        mapDescription.setAllowedPetSize(this.getAllowedPetSize());
+        mapDescription.setPetRestrictions(this.getPetRestrictions());
+        mapDescription.setPlaceDescription(this.getPlaceDescription());
+        mapDescription.setAdditionalPetFee(this.getAdditionalPetFee());
+        mapDescription.setLastUpdated(this.getLastUpdated());
+        mapDescription.setMapPosition(mapPosition);
 
-        return mapEntity;
+        return mapDescription;
+
     }
+
 }

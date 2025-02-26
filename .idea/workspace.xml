@@ -5,8 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b62b4dce-8bd5-4092-b586-195d4f7620c7" name="변경" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/adbanmap/map/entity/MapDescription.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/adbanmap/map/repository/MapDescriptionRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/adbanmap/map/dto/MapDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/adbanmap/map/dto/MapDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/adbanmap/map/entity/MapEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/adbanmap/map/entity/MapPosition.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/adbanmap/map/repository/MapRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/adbanmap/map/repository/MapPositionRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/adbanmap/map/service/MapService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/adbanmap/map/service/MapService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -16,10 +20,10 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "customColor": "",
-  "associatedIndex": 8
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 8
+}</component>
   <component name="ProjectId" id="2tVwIXJjjplBAfE8gfwls6TL5bI" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -31,7 +35,7 @@
     "RunOnceActivity.git.unshallow": "true",
     "git-widget-placeholder": "master",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/한선우/IdeaProjects/advancedmap/backend",
+    "last_opened_file_path": "C:/Users/한선우/IdeaProjects/advancedmap",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
     "vue.rearranger.settings.migration": "true"
@@ -54,6 +58,7 @@
       <option name="presentableId" value="Default" />
       <updated>1740450470738</updated>
       <workItem from="1740450473014" duration="97000" />
+      <workItem from="1740559743050" duration="141000" />
     </task>
     <servers />
   </component>
