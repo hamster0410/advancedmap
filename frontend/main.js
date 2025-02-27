@@ -17,10 +17,11 @@ const map = new Map({
   target: 'map',
   layers: [
     new TileLayer({
-      source: new XYZ({
-        url: '//xy.gcen.co.kr/reverse/mapset/tile/{z}/{x}/{y}?mapset=vt_maplabel',
-      })
-      // source: new OSM(),
+      //지센 소프트 지도로 할 경우
+      // source: new XYZ({
+      //   url: '//xy.gcen.co.kr/reverse/mapset/tile/{z}/{x}/{y}?mapset=vt_maplabel',
+      // })
+      source: new OSM(),
     })
   ],
   view: view,
@@ -46,6 +47,7 @@ window.addEventListener('load', () => {
   geolocation.setTracking(true); // 위치 추적 1회 실행
 });
 
+export const mapping = map;
 
 
 
