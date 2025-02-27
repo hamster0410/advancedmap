@@ -1,17 +1,24 @@
 package com.example.adbanmap.map.service;
 
-import com.example.adbanmap.map.dto.MapDTO;
-import com.example.adbanmap.map.dto.MapDTOResponse;
+import com.example.adbanmap.map.dto.*;
 import com.example.adbanmap.map.entity.MapDescription;
 import com.example.adbanmap.map.entity.MapPosition;
 import com.example.adbanmap.map.repository.MapDescriptionRepository;
 import com.example.adbanmap.map.repository.MapPositionRepository;
+import com.example.adbanmap.map.repository.MapPositionSpecification;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 
-import lombok.extern.slf4j.Slf4j;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -25,9 +32,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-@Slf4j
 @RequiredArgsConstructor
 public class MapService {
+    private final Logger log = LoggerFactory.getLogger(MapService.class);
     private final MapPositionRepository mapPositionRepository;
     private final MapDescriptionRepository mapDescriptionRepository;
 
@@ -58,7 +65,6 @@ public class MapService {
 
             log.info("API 호출 URL: {}", API_URL);
             log.info("전체 페이지 : {}", totalPages);
-
             try {
                 URL url=new URL(endPoint + "?serviceKey=" + serviceKey + "&returnType=" + dataType +
                         "&perPage=1000&page=" + pageNo);
@@ -110,19 +116,19 @@ public class MapService {
 
 
                 } else {
-                    System.out.println("API 요청 실패, 상태 코드: " + status);
+                    log.info("API 요청 실패, 상태 코드 : " + status);
                 }
 
             } catch (Exception e) {
-                log.error("API 응답 처리 중 오류 발생: ", e);
+                // 결과 로그 확인
+                log.info("총 항목 수: {}", totalCount);
+                log.info("수집된 데이터 수: {}", resultList.size());
+
                 break; // 오류 발생 시 반복 종료
             }
         }
 
         // 결과 로그 확인
-        log.info("총 항목 수: {}", totalCount);
-        log.info("수집된 데이터 수: {}", resultList.size());
-
         MapDTOResponse response = MapDTOResponse.builder()
                 .MapDTOList(resultList)
                 .total_count(totalCount)
@@ -131,4 +137,50 @@ public class MapService {
         return ResponseEntity.ok().body(response);
     }
 
+    public MapPositionDTOResponse search(String token, SearchRequestDTO searchRequestDTO, int page) {
+
+        Pageable pageable = PageRequest.of(page, 15, Sort.by(Sort.Direction.DESC, "countLike"));
+        Specification<MapPosition> specification = Specification.where(null);
+
+        if(searchRequestDTO.getKeyword()!=null){
+            specification = specification.and(MapPositionSpecification.searchByKeyword(searchRequestDTO.getKeyword()));
+        }
+
+        if(searchRequestDTO.getCategory()!=null){
+            specification = specification.and(MapPositionSpecification.searchByCategory(searchRequestDTO.getCategory()));
+        }
+
+        if(searchRequestDTO.getParking()!=null){
+            specification = specification.and(MapPositionSpecification.searchByParking(searchRequestDTO.getParking()));
+        }
+
+        if(searchRequestDTO.getOutdoor()!=null){
+            specification = specification.and(MapPositionSpecification.searchByOutdoor(searchRequestDTO.getOutdoor()));
+        }
+
+        if(searchRequestDTO.getIndoor()!=null){
+            specification = specification.and(MapPositionSpecification.searchByIndoor(searchRequestDTO.getIndoor()));
+        }
+        if (searchRequestDTO.getSwLatlng() != null && searchRequestDTO.getNeLatlng() != null) {
+            specification = specification.and(MapPositionSpecification.searchByRange(
+                    searchRequestDTO.getSwLatlng().getLongitude(),
+                    searchRequestDTO.getSwLatlng().getLatitude(),
+                    searchRequestDTO.getNeLatlng().getLongitude(),
+                    searchRequestDTO.getNeLatlng().getLatitude()));
+        }
+
+        // 거리 정렬
+        specification = specification.and(MapPositionSpecification.orderByDistance(
+                (Double.parseDouble(searchRequestDTO.getSwLatlng().getLatitude()) + Double.parseDouble(searchRequestDTO.getNeLatlng().getLatitude())) / 2,
+                (Double.parseDouble(searchRequestDTO.getSwLatlng().getLongitude()) + Double.parseDouble(searchRequestDTO.getNeLatlng().getLongitude())) / 2
+        ));
+
+        Page<MapPosition> maps = mapPositionRepository.findAll(specification,pageable);
+
+
+        return MapPositionDTOResponse.builder()
+//                .mapPositionDTOList(mapPositionDTOList)
+                .total_count(maps.getTotalElements())
+                .build();
+    }
 }

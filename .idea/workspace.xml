@@ -5,12 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b62b4dce-8bd5-4092-b586-195d4f7620c7" name="변경" comment="">
-      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/adbanmap/map/entity/MapDescription.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/adbanmap/map/repository/MapDescriptionRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/adbanmap/map/dto/MapDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/adbanmap/map/dto/MapDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/adbanmap/map/entity/MapEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/adbanmap/map/entity/MapPosition.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/adbanmap/map/repository/MapRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/adbanmap/map/repository/MapPositionRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/adbanmap/map/service/MapService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/adbanmap/map/service/MapService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/backend/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/main.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,8 +35,11 @@
     "git-widget-placeholder": "master",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/한선우/IdeaProjects/advancedmap",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
+    "ts.external.directory.path": "C:\\Program Files\\JetBrains\\IntelliJ IDEA 2024.3.3\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -59,6 +61,8 @@
       <updated>1740450470738</updated>
       <workItem from="1740450473014" duration="97000" />
       <workItem from="1740559743050" duration="141000" />
+      <workItem from="1740614145152" duration="2281000" />
+      <workItem from="1740618648517" duration="2851000" />
     </task>
     <servers />
   </component>
