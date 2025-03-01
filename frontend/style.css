@@ -78,10 +78,10 @@ body {
 
 .search-content {
   padding: 20px;
-  height: 100%;
-  /* 추가 */
-  overflow-y: auto;
-  /* 추가 */
+  height: calc(100vh - 40px); /* 패딩 고려한 높이 */
+  overflow-y: auto; /* 세로 스크롤 추가 */
+  scrollbar-width: thin; /* Firefox를 위한 스크롤바 스타일 */
+  scrollbar-color: #888 #f1f1f1; /* Firefox를 위한 스크롤바 색상 */
 }
 
 .search-header {
@@ -98,9 +98,11 @@ body {
 }
 .category-buttons {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
 }
+
+
 
 .category-button {
   display: flex;
@@ -227,6 +229,7 @@ body {
 
 .category-section {
   margin-top: 20px;
+  padding-bottom: 100px; /* 아래 여백 추가 */
 }
 
 .section-title {
@@ -235,3 +238,49 @@ body {
   margin-bottom: 15px;
   color: #333;
 }
+
+/* Webkit (Chrome, Safari, Edge) 브라우저를 위한 스크롤바 스타일링 */
+.search-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.search-content::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 3px;
+}
+
+.search-content::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 3px;
+}
+
+.search-content::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/*!* 검색 헤더를 고정하고 싶다면 다음 스타일 추가 *!*/
+/*.search-header {*/
+/*  position: sticky;*/
+/*  top: 0;*/
+/*  background-color: white;*/
+/*  z-index: 1;*/
+/*  padding-top: 10px;*/
+/*  margin-top: -10px;*/
+/*}*/
+
+/*!* 검색창도 고정하고 싶다면 다음 스타일 추가 *!*/
+/*.search-box {*/
+/*  position: sticky;*/
+/*  top: 50px; !* 헤더 높이에 따라 조정 *!*/
+/*  background-color: white;*/
+/*  z-index: 1;*/
+/*  padding-bottom: 10px;*/
+/*}*/
+
+/*!* 옵션 그룹도 고정하고 싶다면 다음 스타일 추가 *!*/
+/*.options-group {*/
+/*  position: sticky;*/
+/*  top: 120px; !* 헤더와 검색창 높이에 따라 조정 *!*/
+/*  background-color: #f8f9fa;*/
+/*  z-index: 1;*/
+/*}*/

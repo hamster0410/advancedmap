@@ -56,7 +56,7 @@ public class MapPositionSpecification {
         };
     }
 
-    public static Specification<MapPosition> searchByRange(String sw_x, String sw_y, String ne_x, String ne_y) {
+    public static Specification<MapPosition> searchByRange(Double sw_x, Double sw_y, Double ne_x, Double ne_y) {
         return (root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
             if (sw_x == null || sw_y == null || ne_x == null || ne_y == null) return null;
