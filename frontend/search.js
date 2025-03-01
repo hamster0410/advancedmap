@@ -1,5 +1,3 @@
-import {mapping} from "./main";
-
 import {fromLonLat, transform} from 'ol/proj';
 import 'ol/ol.css';
 import Feature from 'ol/Feature';
@@ -10,7 +8,13 @@ import Style from 'ol/style/Style';
 import Icon from 'ol/style/Icon';
 import axios from "axios";
 
+const map = window.appMap; // main.js에서 설정한 전역 map 사용
 
+if (!map) {
+    console.error('❌ map이 초기화되지 않았습니다.');
+} else {
+    console.log('search.js: map 불러오기 성공', map);
+}
 
 // 선택된 상태 추적
 const selectedData = {
@@ -21,8 +25,8 @@ const selectedData = {
     neLatlng :null,
 };
 
-var vectorSource;
-var vectorLayer;
+let vectorSource;
+let vectorLayer;
 
 
 function toggleSidebar() {
@@ -62,10 +66,8 @@ document.querySelector('.search-button').addEventListener('click', async () => {
     const searchInput = document.querySelector('.search-input');
     selectedData.query = searchInput.value.trim(); // 입력된 검색어 가져오기
 
-    selectedData.center = transform(mapping.getView().getCenter(), 'EPSG:3857', 'EPSG:4326');
-
     // 현재 화면의 Extent(경계 박스) 가져오기
-    const extent = mapping.getView().calculateExtent(mapping.getSize());
+    const extent = map.getView().calculateExtent(map.getSize());
 
     // 좌하단(left bottom)과 우상단(right top) 좌표 변환
     selectedData.swLatlng = transform([extent[0], extent[1]], 'EPSG:3857', 'EPSG:4326');
@@ -73,8 +75,27 @@ document.querySelector('.search-button').addEventListener('click', async () => {
 
     const data = await getData();
     markSearchData(data);
+    document.getElementById('showResultsBtn').style.display = 'flex';
 });
 
+// 결과 보기 버튼 클릭 이벤트
+document.getElementById('showResultsBtn').addEventListener('click', function() {
+    const resultContainer = document.getElementById('result-container');
+    resultContainer.classList.add('visible');
+
+    // 부드러운 스크롤
+    resultContainer.scrollIntoView({ behavior: 'smooth' });
+
+    // 버튼 숨기기
+    this.style.display = 'none';
+});
+
+// Enter 키로도 검색 가능하도록
+document.getElementById('searchInput').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter' && this.value.trim()) {
+        document.getElementById('showResultsBtn').style.display = 'flex';
+    }
+});
 
 function getData() {
     const path = import.meta.env.VITE_API_URL + "/map/search";
@@ -119,9 +140,9 @@ function getData() {
 
 function markSearchData(data) {
     // 기존 레이어 제거
-    mapping.getLayers().forEach(layer => {
+    map.getLayers().forEach(layer => {
         if (layer === vectorLayer) {
-            mapping.removeLayer(layer);
+            map.removeLayer(layer);
         }
     });
 
@@ -154,8 +175,11 @@ function markSearchData(data) {
     });
 
     // 지도에 레이어 추가
-    mapping.addLayer(vectorLayer);
+    map.addLayer(vectorLayer);
 }
+// 전역 변수로 벡터 레이어 선언
+
+
 
 window.toggleSidebar = toggleSidebar;
 window.selectCategory = selectCategory;

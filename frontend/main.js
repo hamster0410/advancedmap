@@ -1,4 +1,5 @@
 import './style.css';
+import './result.css'
 import { Map, View } from 'ol';
 import TileLayer from 'ol/layer/Tile';
 import { fromLonLat } from 'ol/proj';
@@ -13,19 +14,25 @@ const view = new View({
   maxZoom: 18,     // 확대 지도 레벨 설정(필수),
   projection: 'EPSG:3857'	// 좌표계
 })
-const map = new Map({
-  target: 'map',
-  layers: [
-    new TileLayer({
-      //지센 소프트 지도로 할 경우
-      // source: new XYZ({
-      //   url: '//xy.gcen.co.kr/reverse/mapset/tile/{z}/{x}/{y}?mapset=vt_maplabel',
-      // })
-      source: new OSM(),
-    })
-  ],
-  view: view,
-});
+
+// main.js
+if (!window.appMap) { // 중복 초기화 방지
+  window.appMap = new Map({
+    target: 'map',
+    layers: [
+      new TileLayer({
+        source: new OSM(),
+      }),
+    ],
+    view: new View({
+      center: fromLonLat([0, 0]),
+      zoom: 16,
+    }),
+  });
+}
+
+export const map = window.appMap;
+console.log('main.js: map 초기화', map);
 
 const geolocation = new Geolocation({
   // enableHighAccuracy must be set to true to have the heading value.
@@ -47,7 +54,6 @@ window.addEventListener('load', () => {
   geolocation.setTracking(true); // 위치 추적 1회 실행
 });
 
-export const mapping = map;
 
 
 

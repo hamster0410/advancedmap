@@ -1,0 +1,47 @@
+/* 화살표 버튼 스타일 */
+.show-results-button {
+  display: none; /* 초기에는 숨김 */
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 16px 28px;
+  background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+  border: none;
+  border-radius: 50px;
+  box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+  cursor: pointer;
+  z-index: 1000;
+  color: white;
+  font-weight: 500;
+  font-size: 15px;
+  transition: all 0.3s ease;
+
+  /* 내부 요소 정렬 */
+  display: none; /* 기본은 숨김 상태 */
+  align-items: center;
+  gap: 8px;
+}
+
+.arrow-down {
+  width: 10px;
+  height: 10px;
+  border: solid #4CAF50;
+  border-width: 0 2px 2px 0;
+  display: inline-block;
+  padding: 3px;
+  transform: rotate(45deg);
+}
+
+/* 결과 컨테이너 스타일 */
+#result-container {
+  display: none; /* 초기에는 숨김 */
+  min-height: 100vh;
+  background: white;
+  padding: 40px 20px;
+  box-shadow: 0 -4px 10px rgba(0,0,0,0.1);
+}
+
+#result-container.visible {
+  display: block;
+}

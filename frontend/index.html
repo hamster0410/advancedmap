@@ -7,8 +7,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Using OpenLayers with Vite</title>
 </head>
+<script type="module" src="main.js"></script>
 <script type="module" src="search.js"></script>
-
+<script type="module" src="result.js"></script>
 <body>
   <div class="sidebar" id="sidebar">
     <div class="search-header">
@@ -106,8 +107,22 @@
     </div>
   </div>
   <div id="map"></div>
-  <script type="module" src="main.js"></script>
+  <!-- 결과 보기 버튼 추가 -->
+  <button class="show-results-button" id="showResultsBtn">
+    결과 보기
+    <div class="arrow-down"></div>
+  </button>
 
+  <!-- 결과 컨테이너 -->
+  <div id="result-container">
+    <div class="results-content">
+      <h2>검색 결과</h2>
+      <div id="results-list">
+        <!-- 결과 내용이 동적으로 추가될 영역 -->
+      </div>
+    </div>
+  </div>
+
+  </div>
 </body>
-
 </html>
