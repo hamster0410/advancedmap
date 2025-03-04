@@ -1,11 +1,15 @@
 import './style.css';
 import './result.css'
-import { Map, View } from 'ol';
+import './modal.css'
+import {Map, Overlay, View} from 'ol';
 import TileLayer from 'ol/layer/Tile';
 import { fromLonLat } from 'ol/proj';
 import XYZ from 'ol/source/XYZ.js';
 import Geolocation from 'ol/Geolocation.js';
-import OSM from 'ol/source/OSM.js';
+// import OSM from 'ol/source/OSM.js';
+
+var enterOverlayId = "marker-enter-overlay";	// 마커 마우스 오버시 사용할 팝업
+
 
 const view = new View({
   center: fromLonLat([0,0]),
@@ -21,7 +25,10 @@ if (!window.appMap) { // 중복 초기화 방지
     target: 'map',
     layers: [
       new TileLayer({
-        source: new OSM(),
+        source : new XYZ({
+          url: '//xy.gcen.co.kr/reverse/mapset/tile/{z}/{x}/{y}?mapset=vt_maplabel',
+        })
+        // source: new OSM(),
       }),
     ],
     view: new View({
@@ -32,7 +39,6 @@ if (!window.appMap) { // 중복 초기화 방지
 }
 
 export const map = window.appMap;
-console.log('main.js: map 초기화', map);
 
 const geolocation = new Geolocation({
   // enableHighAccuracy must be set to true to have the heading value.
@@ -55,6 +61,23 @@ window.addEventListener('load', () => {
 });
 
 
+// 마커 마우스 오버 오버레이 설정
+function setOvrlay() {
+  console.log("setOverlay")
+  // var mouseOverPopup = $("#popup_over").get(0);
+  var mouseOverPopup = document.createElement("div");
+  mouseOverPopup.id = "popup_over";
+  mouseOverPopup.className = "ol-popup-left";
+  var overPopup = new Overlay({
+    id: enterOverlayId,
+    element: mouseOverPopup,
+    positioning: 'bottom-center',
+    offset: [0, 10]
+  });
+  map.addOverlay(overPopup);
+}
+
+setOvrlay();
 
 
 

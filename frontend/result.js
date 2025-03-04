@@ -11,6 +11,7 @@ document.querySelector('.search-button').addEventListener('click', function() {
 // 결과 보기 버튼 클릭 이벤트
 document.getElementById('showResultsBtn').addEventListener('click', function() {
     const resultContainer = document.getElementById('result-container');
+    displayResults(window.getData);
     resultContainer.classList.add('visible');
 
     // 부드러운 스크롤
@@ -26,3 +27,5 @@ document.getElementById('searchInput').addEventListener('keypress', function(e) 
         document.getElementById('showResultsBtn').style.display = 'flex';
     }
 });
+
+

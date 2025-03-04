@@ -7,14 +7,11 @@ import VectorSource from 'ol/source/Vector';
 import Style from 'ol/style/Style';
 import Icon from 'ol/style/Icon';
 import axios from "axios";
+import {Select} from "ol/interaction";
+import {pointerMove} from "ol/events/condition";
+import { showWindow} from "./openwindow";
 
 const map = window.appMap; // main.js에서 설정한 전역 map 사용
-
-if (!map) {
-    console.error('❌ map이 초기화되지 않았습니다.');
-} else {
-    console.log('search.js: map 불러오기 성공', map);
-}
 
 // 선택된 상태 추적
 const selectedData = {
@@ -27,6 +24,7 @@ const selectedData = {
 
 let vectorSource;
 let vectorLayer;
+var enterOverlayId = "marker-enter-overlay";	// 마커 마우스 오버시 사용할 팝업
 
 
 function toggleSidebar() {
@@ -73,29 +71,13 @@ document.querySelector('.search-button').addEventListener('click', async () => {
     selectedData.swLatlng = transform([extent[0], extent[1]], 'EPSG:3857', 'EPSG:4326');
     selectedData.neLatlng = transform([extent[2], extent[3]], 'EPSG:3857', 'EPSG:4326');
 
+    //서버로부터 데이터 가져오기
     const data = await getData();
     markSearchData(data);
+
     document.getElementById('showResultsBtn').style.display = 'flex';
 });
 
-// 결과 보기 버튼 클릭 이벤트
-document.getElementById('showResultsBtn').addEventListener('click', function() {
-    const resultContainer = document.getElementById('result-container');
-    resultContainer.classList.add('visible');
-
-    // 부드러운 스크롤
-    resultContainer.scrollIntoView({ behavior: 'smooth' });
-
-    // 버튼 숨기기
-    this.style.display = 'none';
-});
-
-// Enter 키로도 검색 가능하도록
-document.getElementById('searchInput').addEventListener('keypress', function(e) {
-    if (e.key === 'Enter' && this.value.trim()) {
-        document.getElementById('showResultsBtn').style.display = 'flex';
-    }
-});
 
 function getData() {
     const path = import.meta.env.VITE_API_URL + "/map/search";
@@ -150,9 +132,7 @@ function markSearchData(data) {
     const features = data.mapPositionDTOList.map(position => {
         const marker = new Feature({
             geometry: new Point(fromLonLat([position.longitude, position.latitude])),
-            map_id: position.map_id,
-            category3: position.category3,
-            parkingAvailable: position.parkingAvailable
+            map_id: position.map_id
         });
 
         marker.setStyle(new Style({
@@ -174,10 +154,61 @@ function markSearchData(data) {
         source: vectorSource
     });
 
+    // 마우스 커서 변경을 위한 포인터 상호작용 추가
+    const pointerInteraction = new Select({
+        condition: pointerMove,
+        style: null
+    });
+
+    map.addInteraction(pointerInteraction);
+
+    // 마커 클릭 이벤트 처리
+    map.on('click', function(evt) {
+        const feature = map.forEachFeatureAtPixel(evt.pixel, function(feature) {
+            return feature;
+        });
+        if (feature) {
+            showWindow(feature,evt.pixel);
+        }
+
+        const popup = map.getOverlayById(enterOverlayId);
+        if (popup) {
+            popup.setPosition(undefined); // 팝업 숨기기
+            document.getElementById("popup_over").style.display = "none";
+        }
+    });
+
+    // 마우스 커서 변경
+    map.on('pointermove', function(evt) {
+        const pixel = map.getEventPixel(evt.originalEvent);
+        const hit = map.hasFeatureAtPixel(pixel);
+        map.getTargetElement().style.cursor = hit ? 'pointer' : '';
+    });
+
     // 지도에 레이어 추가
     map.addLayer(vectorLayer);
 }
 // 전역 변수로 벡터 레이어 선언
+
+// 결과 보기 버튼 클릭 이벤트
+document.getElementById('showResultsBtn').addEventListener('click', function() {
+    const resultContainer = document.getElementById('result-container');
+    resultContainer.classList.add('visible');
+
+    // 부드러운 스크롤
+    resultContainer.scrollIntoView({ behavior: 'smooth' });
+
+    // 버튼 숨기기
+    this.style.display = 'none';
+});
+
+// Enter 키로도 검색 가능하도록
+document.getElementById('searchInput').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter' && this.value.trim()) {
+        document.getElementById('showResultsBtn').style.display = 'flex';
+    }
+});
+
 
 
 

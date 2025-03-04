@@ -1,6 +1,7 @@
 package com.example.adbanmap.map.controller;
 
 import com.example.adbanmap.global.dto.ResponseDTO;
+import com.example.adbanmap.map.dto.MapDescriptionDTO;
 import com.example.adbanmap.map.dto.MapPositionDTOResponse;
 import com.example.adbanmap.map.dto.SearchRequestDTO;
 import com.example.adbanmap.map.service.MapService;
@@ -41,6 +42,23 @@ public class MapController {
             MapPositionDTOResponse mapPositionDTOResponse = mapService.search(searchRequestDTO);
             System.out.println(mapPositionDTOResponse.toString());
             return ResponseEntity.ok().body(mapPositionDTOResponse);
+
+        }catch (Exception e){
+            log.error(e.getMessage());
+            responseDTO = ResponseDTO.builder()
+                    .message(e.getMessage())
+                    .build();
+            return ResponseEntity.badRequest().body(responseDTO);
+        }
+    }
+
+    @GetMapping("/detail")
+    public ResponseEntity<?> search_detail(@RequestParam long id) {
+        ResponseDTO responseDTO = null;
+
+        try {
+            MapDescriptionDTO mapDescriptionDTO = mapService.search_detail(id);
+            return ResponseEntity.ok().body(mapDescriptionDTO);
 
         }catch (Exception e){
             log.error(e.getMessage());

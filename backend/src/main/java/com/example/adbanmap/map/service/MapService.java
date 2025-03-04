@@ -138,6 +138,7 @@ public class MapService {
         Specification<MapPosition> specification = Specification.where(null);
 
         if(searchRequestDTO.getKeyword()!=null){
+            System.out.println(searchRequestDTO.getKeyword());
             specification = specification.and(MapPositionSpecification.searchByKeyword(searchRequestDTO.getKeyword()));
         }
 
@@ -181,5 +182,11 @@ public class MapService {
                 .mapPositionDTOList(mapPositionDTOList)
                 .total_count(maps.size())
                 .build();
+    }
+
+    public MapDescriptionDTO search_detail(long id) {
+        MapDescription mapDescription = mapDescriptionRepository.findById(id).orElse(null);
+
+        return new MapDescriptionDTO(mapDescription);
     }
 }
