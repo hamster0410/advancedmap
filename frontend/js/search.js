@@ -24,7 +24,7 @@ const selectedData = {
 };
 
 let vectorSource;
-let vectorLayer;
+let markerLayer;
 var enterOverlayId = "marker-enter-overlay";	// 마커 마우스 오버시 사용할 팝업
 
 
@@ -81,7 +81,7 @@ document.querySelector('.search-button').addEventListener('click', async () => {
 
 
 function getData() {
-    const path = import.meta.env.VITE_API_URL + "/map/search";
+    const path = import.meta.env.VITE_WEB_URL + "/map/search";
     // console.log('🔍 선택된 데이터:');
     // console.log('카테고리:', selectedData.category || '없음');
     // console.log('검색어:', selectedData.query || '없음');
@@ -106,7 +106,6 @@ function getData() {
         params: Object.fromEntries(params) // URLSearchParams → 객체 변환
     })
         .then(response => {
-            console.log(response.data)
             return response.data;
         })
         .catch(error => {
@@ -121,13 +120,21 @@ function getData() {
         });
 }
 
-function markSearchData(data) {
+export function markSearchData(data) {
     // 기존 레이어 제거
-    map.getLayers().forEach(layer => {
-        if (layer === vectorLayer) {
+
+    // map.getLayers().forEach(layer => {
+    //     if (layer === markerLayer) {
+    //         map.removeLayer(layer);
+    //     }
+    // });
+
+    map.getLayers().getArray().forEach(layer => {
+        if(layer instanceof VectorLayer){
             map.removeLayer(layer);
         }
-    });
+    })
+    // map.removeLayer(markerLayer); // 레이어 자체 삭제
 
     // 마커 생성 및 스타일 적용
     const features = data.mapPositionDTOList.map(position => {
@@ -138,9 +145,9 @@ function markSearchData(data) {
 
         marker.setStyle(new Style({
             image: new Icon({
-                src: './img/marker.png',
+                src: '../img/marker.png',
                 scale: 1,
-            })
+            }),
         }));
 
         return marker;
@@ -151,8 +158,11 @@ function markSearchData(data) {
         features: features
     });
 
-    vectorLayer = new VectorLayer({
-        source: vectorSource
+    markerLayer = new VectorLayer({
+        id: 'markerLayer',  // 고유 ID 설정
+        source: vectorSource,
+        zIndex: 2
+
     });
 
     // 마우스 커서 변경을 위한 포인터 상호작용 추가
@@ -171,7 +181,7 @@ function markSearchData(data) {
         });
         if (feature) {
 
-            showWindow(feature,evt.pixel);
+            showWindow(feature);
         }
 
         if (popup) {
@@ -188,7 +198,7 @@ function markSearchData(data) {
     });
 
     // 지도에 레이어 추가
-    map.addLayer(vectorLayer);
+    map.addLayer(markerLayer);
 }
 // 전역 변수로 벡터 레이어 선언
 

@@ -18,6 +18,7 @@ public class MapPosition {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String facilityName;            // 시설명
     private String category3;               // 카테고리3
     private Double latitude;                // 위도
     private Double longitude;               // 경도

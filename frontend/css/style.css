@@ -1,4 +1,4 @@
-@import "node_modules/ol/ol.css";
+@import "../node_modules/ol/ol.css";
 
 html,
 body {
@@ -88,6 +88,7 @@ body {
 }
 
 .search-header {
+  margin-top:10px;
   margin-bottom: 20px;
   padding-bottom: 10px;
   border-bottom: 1px solid #eee;

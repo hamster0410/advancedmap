@@ -1,7 +1,7 @@
-import './style.css';
-import './result.css'
-import './modal.css'
-import './route.css'
+import '../css/style.css';
+import '../css/result.css'
+import '../css/modal.css'
+import '../css/route.css'
 import {Map, Overlay, View} from 'ol';
 import TileLayer from 'ol/layer/Tile';
 import { fromLonLat } from 'ol/proj';

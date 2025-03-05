@@ -118,12 +118,17 @@ public class MapDTO {
         mapPosition.setParkingAvailable(this.getParkingAvailable());
         mapPosition.setIndoorAvailable(this.getIndoorAvailable());
         mapPosition.setOutdoorAvailable(this.getOutdoorAvailable());
+        mapPosition.setFacilityName(this.getFacilityName());
 
         return mapPosition;
     }
 
     public MapDescription toMapDescription(MapPosition mapPosition) {
         MapDescription mapDescription = new MapDescription();
+
+        mapDescription.setLatitude(this.latitude);
+        mapDescription.setLongitude(this.longitude);
+
         mapDescription.setFacilityName(this.getFacilityName());
         mapDescription.setCategory1(this.getCategory1());
         mapDescription.setCategory2(this.getCategory2());

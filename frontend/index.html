@@ -11,7 +11,7 @@
 <body>
   <div class="sidebar" id="sidebar">
     <div class="search-header">
-      <h2>카테고리 검색</h2>
+      <h2>반려동물 동반 가능 시설 검색</h2>
     </div>
     <button class="toggle-button" onclick="toggleSidebar()">
       <span class="toggle-icon"></span>
@@ -121,7 +121,7 @@
           </div>
 
           <div class="waypoints-actions">
-            <button class="waypoint-action clear" onclick="clearWaypoints()">
+            <button class="waypoint-action clear">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M3 6h18"></path>
                 <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
@@ -129,7 +129,7 @@
               </svg>
               모두 지우기
             </button>
-            <button class="find-route-button" onclick="findRouteWithWaypoints()">
+            <button class="find-route-button">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
               </svg>
@@ -162,9 +162,8 @@
 
   </div>
 </body>
-<script type="module" src="main.js"></script>
-<script type="module" src="search.js"></script>
-<script type="module" src="result.js"></script>
-<script type="module" src="route.js"></script>
+<script type="module" src="js/main.js"></script>
+<script type="module" src="js/search.js"></script>
+<script type="module" src="js/result.js"></script>
 
 </html>

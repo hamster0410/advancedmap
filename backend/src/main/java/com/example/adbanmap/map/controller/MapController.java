@@ -40,7 +40,6 @@ public class MapController {
 
         try {
             MapPositionDTOResponse mapPositionDTOResponse = mapService.search(searchRequestDTO);
-            System.out.println(mapPositionDTOResponse.toString());
             return ResponseEntity.ok().body(mapPositionDTOResponse);
 
         }catch (Exception e){

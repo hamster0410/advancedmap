@@ -10,6 +10,7 @@ import lombok.Setter;
 @Setter
 public class MapPositionDTO {
     private long map_id;
+    private String facilityName;            // 시설명
     private String category3;               // 카테고리3
     private Double latitude;                // 위도
     private Double longitude;               // 경도
@@ -20,6 +21,7 @@ public class MapPositionDTO {
 
     public MapPositionDTO(MapPosition mapEntity){
         this.latitude = mapEntity.getLatitude();
+        this.facilityName = mapEntity.getFacilityName();
         this.longitude = mapEntity.getLongitude();
         this.map_id = mapEntity.getId();
         this.category3 = mapEntity.getCategory3();

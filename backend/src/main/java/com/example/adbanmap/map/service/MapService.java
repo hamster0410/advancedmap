@@ -21,6 +21,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 
+import javax.transaction.Transactional;
 import java.net.URI;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -50,6 +51,7 @@ public class MapService {
 
     private long totalCount;
 
+    @Transactional
     public ResponseEntity<?> mapFind() {
 
         mapPositionRepository.deleteAll();
@@ -71,13 +73,13 @@ public class MapService {
             log.info("전체 페이지 : {}", totalPages);
 
             try {
-                URI uri = UriComponentsBuilder.fromHttpUrl(endPoint)
+                URI uri = URI.create(UriComponentsBuilder.fromHttpUrl(endPoint)
                         .queryParam("serviceKey", serviceKey)
                         .queryParam("dataType", dataType)
                         .queryParam("perPage", 1000)
                         .queryParam("page", pageNo)
                         .build()
-                        .toUri();
+                        .toUriString());
 
                 ResponseEntity<String> responseEntity = restTemplate.getForEntity(uri, String.class);
                 String response = responseEntity.getBody();
@@ -131,14 +133,11 @@ public class MapService {
     }
 
 
-
-
     public MapPositionDTOResponse search( SearchRequestDTO searchRequestDTO) {
 
         Specification<MapPosition> specification = Specification.where(null);
 
         if(searchRequestDTO.getKeyword()!=null){
-            System.out.println(searchRequestDTO.getKeyword());
             specification = specification.and(MapPositionSpecification.searchByKeyword(searchRequestDTO.getKeyword()));
         }
 
@@ -169,11 +168,12 @@ public class MapService {
                     searchRequestDTO.getNeLatlng().getLatitude()));
         }
 
+
         // 거리 정렬
-        specification = specification.and(MapPositionSpecification.orderByDistance(
-                (searchRequestDTO.getSwLatlng().getLatitude() + searchRequestDTO.getNeLatlng().getLatitude()) / 2,
-                (searchRequestDTO.getSwLatlng().getLongitude() + searchRequestDTO.getNeLatlng().getLongitude()) / 2
-        ));
+//        specification = specification.and(MapPositionSpecification.orderByDistance(
+//                (searchRequestDTO.getSwLatlng().getLatitude() + searchRequestDTO.getNeLatlng().getLatitude()) / 2,
+//                (searchRequestDTO.getSwLatlng().getLongitude() + searchRequestDTO.getNeLatlng().getLongitude()) / 2
+//        ));
 
         List<MapPosition> maps = mapPositionRepository.findAll(specification);
         List<MapPositionDTO> mapPositionDTOList= maps.stream().map(MapPositionDTO::new).collect(Collectors.toList());

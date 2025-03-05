@@ -8,6 +8,8 @@ import lombok.Setter;
 @Setter
 public class MapDescriptionDTO {
     private Long map_id;
+    private Double latitude;                // 위도
+    private Double longitude;               // 경도
     private String facilityName;            // 시설명
     private String category1;               // 카테고리1
     private String category2;               // 카테고리2
@@ -38,6 +40,8 @@ public class MapDescriptionDTO {
 
     public MapDescriptionDTO(MapDescription mapDescription){
         this.map_id = mapDescription.getId();
+        this.latitude = mapDescription.getLatitude();
+        this.longitude = mapDescription.getLongitude();
         this.facilityName = mapDescription.getFacilityName();
         this.category1 = mapDescription.getCategory1();
         this.category2 = mapDescription.getCategory2();

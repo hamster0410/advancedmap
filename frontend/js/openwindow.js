@@ -2,7 +2,6 @@
 
 // axios import 추가
 import axios from 'axios';
-import {transform} from "ol/proj";
 import {addWaypoint, moveWaypoint,clearWaypoints,removeWaypoint} from "./route";
 
 const map = window.appMap; // main.js에서 설정한 전역 map 사용
@@ -11,12 +10,12 @@ var enterOverlayId = "marker-enter-overlay";	// 마커 마우스 오버시 사�
 var detail = null;
 
 // showModal 함수 수정
-export async function showWindow(feature,pixel) {
+export async function showWindow(feature) {
 
     const map_id = feature.get('map_id');
     try {
         // 서버에 상세 정보 요청
-        const response = await axios.get(import.meta.env.VITE_API_URL + `/map/detail?id=${map_id}`);
+        const response = await axios.get(import.meta.env.VITE_WEB_URL + `/map/detail?id=${map_id}`);
         detail = response.data;
         // console.log('=== 상세 정보 로그 ===');
         // console.log('시설명:', detail.facilityName);
@@ -73,7 +72,7 @@ export async function showWindow(feature,pixel) {
 
 </div>
 `;
-        markerInfoWindow(content,point,pixel);
+        markerInfoWindow(content,point);
 
     } catch (error) {
         console.error('Error fetching details:', error);
@@ -82,19 +81,9 @@ export async function showWindow(feature,pixel) {
 
 }
 
-// 재시도 함수
-async function retryLoad(mapId) {
-    const feature = vectorSource.getFeatures().find(f =>
-        f.get('properties').map_id === mapId
-    );
-    if (feature) {
-        await showModal(feature.get('properties'));
-    }
-}
-
 
 //인포윈도우 표시
-function markerInfoWindow(content,point,pixel){
+function markerInfoWindow(content,point){
     document.getElementById("popup_over").style.display = "block";
     const popup = map.getOverlayById(enterOverlayId);
     popup.className = 'map-popup arrow-top';
@@ -112,55 +101,6 @@ function markerInfoWindow(content,point,pixel){
         popup.setPosition(undefined);
     }
 }
-
-
-// 지도 마우스 오버 모서리에 팝업 표시 시 오버레이 위치 변경
-const getOverlayOffsets = (mapInstance, overlay, px) => {
-    const overlayRect = overlay.getElement().getBoundingClientRect();
-    const mapRect = mapInstance.getTargetElement().getBoundingClientRect();
-    const margin = 20;
-
-    const offsetLeft = overlayRect.left - mapRect.left;
-    const offsetRight = mapRect.right - overlayRect.right;
-    const offsetTop = overlayRect.top - mapRect.top;
-    const offsetBottom = mapRect.bottom - overlayRect.bottom;
-
-    console.log('offsets', offsetLeft, offsetRight, offsetTop, offsetBottom);
-    console.log('px', px[0], px[1]);
-
-    // 기본 오프셋 값
-    const offset = [75, 10];
-
-    let tbChange = false;
-    let lrChange = false;
-
-    // 지도 크기 가져오기
-    const mapElement = document.getElementById('map');
-    const mapWidth = parseInt(getComputedStyle(mapElement).width);
-    const mapHeight = parseInt(getComputedStyle(mapElement).height);
-
-    if (offsetLeft < 0) {
-        offset[0] = margin - offsetLeft + px[0];
-        lrChange = true;
-    } else if (offsetRight < 0) {
-        offset[0] = -(Math.abs(offsetRight) + margin + mapWidth - px[0]) + 60;
-        lrChange = true;
-    }
-    if (offsetTop < 0) {
-        offset[1] = margin - offsetTop + px[1];
-        tbChange = true;
-    } else if (offsetBottom < 0) {
-        offset[1] = -(Math.abs(offsetBottom) + margin + mapHeight - px[1]);
-        tbChange = true;
-    }
-
-    if (lrChange && !tbChange) {
-        offset[1] = 0;
-    }
-
-    return offset;
-};
-
 
 document.addEventListener('click', function(event) {
     // 클릭된 요소가 'route-add' 클래스를 가진 버튼인지 확인
