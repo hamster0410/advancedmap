@@ -7,6 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class MapDescriptionDTO {
+    private Long map_id;
     private String facilityName;            // 시설명
     private String category1;               // 카테고리1
     private String category2;               // 카테고리2
@@ -36,6 +37,7 @@ public class MapDescriptionDTO {
     private String lastUpdated;             // 최종작성일
 
     public MapDescriptionDTO(MapDescription mapDescription){
+        this.map_id = mapDescription.getId();
         this.facilityName = mapDescription.getFacilityName();
         this.category1 = mapDescription.getCategory1();
         this.category2 = mapDescription.getCategory2();

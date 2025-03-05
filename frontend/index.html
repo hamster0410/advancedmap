@@ -7,9 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Using OpenLayers with Vite</title>
 </head>
-<script type="module" src="main.js"></script>
-<script type="module" src="search.js"></script>
-<script type="module" src="result.js"></script>
+
 <body>
   <div class="sidebar" id="sidebar">
     <div class="search-header">
@@ -18,6 +16,7 @@
     <button class="toggle-button" onclick="toggleSidebar()">
       <span class="toggle-icon"></span>
     </button>
+
     <div class="search-content">
       <!-- 검색창 추가 -->
       <!-- 검색창과 버튼 그룹 -->
@@ -50,6 +49,7 @@
           </label>
         </div>
       </div>
+
       <!-- 카테고리 버튼 -->
       <div class="category-section">
         <div class="section-title">카테고리</div>
@@ -104,7 +104,43 @@
           </button>
         </div>
       </div>
+      <!-- 경유지 설정 섹션 -->
+      <div class="route-section">
+        <div class="section-title">경유지 설정</div>
+        <div class="route-container">
+          <div class="waypoints-header">
+            <span>선택한 경유지</span>
+            <span class="waypoints-count" id="waypointsCount">0개</span>
+          </div>
+
+          <div id="waypointsList" class="waypoints-list">
+            <!-- 경유지가 여기에 추가됩니다 -->
+            <div class="empty-waypoints" id="emptyWaypoints">
+              <p>지도에서 마커를 선택하여 경유지를 추가하세요</p>
+            </div>
+          </div>
+
+          <div class="waypoints-actions">
+            <button class="waypoint-action clear" onclick="clearWaypoints()">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 6h18"></path>
+                <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
+                <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
+              </svg>
+              모두 지우기
+            </button>
+            <button class="find-route-button" onclick="findRouteWithWaypoints()">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
+              </svg>
+              경로 찾기
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
+
+
   </div>
   <div id="map"></div>
   <!-- 결과 보기 버튼 추가 -->
@@ -126,4 +162,9 @@
 
   </div>
 </body>
+<script type="module" src="main.js"></script>
+<script type="module" src="search.js"></script>
+<script type="module" src="result.js"></script>
+<script type="module" src="route.js"></script>
+
 </html>

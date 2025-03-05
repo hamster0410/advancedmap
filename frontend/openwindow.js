@@ -2,10 +2,13 @@
 
 // axios import 추가
 import axios from 'axios';
+import {transform} from "ol/proj";
+import {addWaypoint, moveWaypoint,clearWaypoints,removeWaypoint} from "./route";
+
 const map = window.appMap; // main.js에서 설정한 전역 map 사용
 
 var enterOverlayId = "marker-enter-overlay";	// 마커 마우스 오버시 사용할 팝업
-
+var detail = null;
 
 // showModal 함수 수정
 export async function showWindow(feature,pixel) {
@@ -14,8 +17,7 @@ export async function showWindow(feature,pixel) {
     try {
         // 서버에 상세 정보 요청
         const response = await axios.get(import.meta.env.VITE_API_URL + `/map/detail?id=${map_id}`);
-        const detail = response.data;
-
+        detail = response.data;
         // console.log('=== 상세 정보 로그 ===');
         // console.log('시설명:', detail.facilityName);
         // console.log('카테고리:', detail.category2);
@@ -64,7 +66,11 @@ export async function showWindow(feature,pixel) {
         <div class='popup-item'><strong>설명:</strong> ${detail.placeDescription}</div>
     </div>
     <hr class='popup-divider'>
-    <div class='popup-footer'><strong>마지막 업데이트:</strong> ${new Date(detail.lastUpdated).toLocaleDateString()}</div>
+    <div class='popup-footer'>
+    <div><strong>마지막 업데이트:</strong> ${new Date(detail.lastUpdated).toLocaleDateString()}</div>
+    <div class='route-add'><button>경유지 추가</button></div>
+</div>
+
 </div>
 `;
         markerInfoWindow(content,point,pixel);
@@ -91,29 +97,25 @@ async function retryLoad(mapId) {
 function markerInfoWindow(content,point,pixel){
     document.getElementById("popup_over").style.display = "block";
     const popup = map.getOverlayById(enterOverlayId);
+    popup.className = 'map-popup arrow-top';
+
     const obj = popup.getElement();
 
 // 마커 위에 마우스 오버 시 정보 표시
     if (content !== "" && point !== undefined) {
         obj.innerHTML = content;
-        popup.setOffset([75, 10]); // 기본값 설정
+        popup.setOffset([75, -40]); // 기본값 설정
         popup.setPositioning('bottom-center'); // 기본값 설정
         popup.setPosition(point);
 
-        const offset = getOverlayOffsets(map, popup, pixel);
-        if (offset[1] > 0) {
-            popup.setPositioning('bottom-center');
-        }
-        popup.setOffset(offset);
     } else {
         popup.setPosition(undefined);
     }
 }
 
 
-
-//지도 마우스 오버 모서리에 팝업 표시시 오버레이 위치변경
-var getOverlayOffsets = function (mapInstance, overlay, px) {
+// 지도 마우스 오버 모서리에 팝업 표시 시 오버레이 위치 변경
+const getOverlayOffsets = (mapInstance, overlay, px) => {
     const overlayRect = overlay.getElement().getBoundingClientRect();
     const mapRect = mapInstance.getTargetElement().getBoundingClientRect();
     const margin = 20;
@@ -123,12 +125,16 @@ var getOverlayOffsets = function (mapInstance, overlay, px) {
     const offsetTop = overlayRect.top - mapRect.top;
     const offsetBottom = mapRect.bottom - overlayRect.bottom;
 
-    // default
+    console.log('offsets', offsetLeft, offsetRight, offsetTop, offsetBottom);
+    console.log('px', px[0], px[1]);
+
+    // 기본 오프셋 값
     const offset = [75, 10];
 
     let tbChange = false;
     let lrChange = false;
 
+    // 지도 크기 가져오기
     const mapElement = document.getElementById('map');
     const mapWidth = parseInt(getComputedStyle(mapElement).width);
     const mapHeight = parseInt(getComputedStyle(mapElement).height);
@@ -154,3 +160,28 @@ var getOverlayOffsets = function (mapInstance, overlay, px) {
 
     return offset;
 };
+
+
+document.addEventListener('click', function(event) {
+    // 클릭된 요소가 'route-add' 클래스를 가진 버튼인지 확인
+    if (event.target.closest('.route-add')) {
+        addWaypoint(detail);
+    }
+});
+
+document.addEventListener('click', (e) => {
+    const target = e.target.closest('.waypoint-action');
+    if (!target) return;
+
+    const index = Number(target.dataset.index);
+    if (target.classList.contains('remove')) {
+        removeWaypoint(index);
+    } else if (target.classList.contains('clear')) {
+        clearWaypoints();
+    } else if (target.classList.contains('up')) {
+        moveWaypoint(index, 'up');
+    } else if (target.classList.contains('down')) {
+        moveWaypoint(index, 'down');
+    }
+});
+

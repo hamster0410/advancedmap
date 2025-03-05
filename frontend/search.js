@@ -11,6 +11,7 @@ import {Select} from "ol/interaction";
 import {pointerMove} from "ol/events/condition";
 import { showWindow} from "./openwindow";
 
+
 const map = window.appMap; // main.js에서 설정한 전역 map 사용
 
 // 선택된 상태 추적
@@ -164,14 +165,15 @@ function markSearchData(data) {
 
     // 마커 클릭 이벤트 처리
     map.on('click', function(evt) {
+        const popup = map.getOverlayById(enterOverlayId);
         const feature = map.forEachFeatureAtPixel(evt.pixel, function(feature) {
             return feature;
         });
         if (feature) {
+
             showWindow(feature,evt.pixel);
         }
 
-        const popup = map.getOverlayById(enterOverlayId);
         if (popup) {
             popup.setPosition(undefined); // 팝업 숨기기
             document.getElementById("popup_over").style.display = "none";

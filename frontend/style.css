@@ -24,6 +24,10 @@ body {
   box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease;
   z-index: 1000;
+
+  display: flex;
+  flex-direction: column;
+  /*overflow: hidden; !* 내부 콘텐츠가 넘치지 않도록 설정 *!*/
 }
 
 /* 나머지 CSS는 동일하게 유지 */
@@ -228,7 +232,7 @@ body {
 
 .category-section {
   margin-top: 20px;
-  padding-bottom: 100px; /* 아래 여백 추가 */
+  padding-bottom: 20px; /* 아래 여백 추가 */
 }
 
 .section-title {
@@ -283,3 +287,4 @@ body {
 /*  background-color: #f8f9fa;*/
 /*  z-index: 1;*/
 /*}*/
+

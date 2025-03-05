@@ -1,12 +1,14 @@
 import './style.css';
 import './result.css'
 import './modal.css'
+import './route.css'
 import {Map, Overlay, View} from 'ol';
 import TileLayer from 'ol/layer/Tile';
 import { fromLonLat } from 'ol/proj';
 import XYZ from 'ol/source/XYZ.js';
 import Geolocation from 'ol/Geolocation.js';
-// import OSM from 'ol/source/OSM.js';
+import OSM from 'ol/source/OSM.js';
+
 
 var enterOverlayId = "marker-enter-overlay";	// 마커 마우스 오버시 사용할 팝업
 
@@ -66,13 +68,20 @@ function setOvrlay() {
   console.log("setOverlay")
   // var mouseOverPopup = $("#popup_over").get(0);
   var mouseOverPopup = document.createElement("div");
+
   mouseOverPopup.id = "popup_over";
+
   mouseOverPopup.className = "ol-popup-left";
+
   var overPopup = new Overlay({
     id: enterOverlayId,
     element: mouseOverPopup,
     positioning: 'bottom-center',
-    offset: [0, 10]
+    offset: [0, -50],
+    autoPan: true,
+    autoPanAnimation: {
+      duration: 150
+    }
   });
   map.addOverlay(overPopup);
 }
